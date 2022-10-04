@@ -13,18 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="nmd5">
+      <UniqueIdentifier>{45904195-1aec-4c16-b0c8-80edb1a9813d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="md5.h">
-      <Filter>Archivos de recursos</Filter>
+    <ClInclude Include="nmd5.h">
+      <Filter>nmd5</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="md5.cpp">
-      <Filter>Archivos de recursos</Filter>
+    <ClCompile Include="nmd5.cpp">
+      <Filter>nmd5</Filter>
     </ClCompile>
     <ClCompile Include="Source.cpp">
-      <Filter>Archivos de recursos</Filter>
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
