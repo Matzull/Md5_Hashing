@@ -336,6 +336,19 @@ std::string MD5::getHash()
     return result;
 }
 
+std::string MD5::hexString(unsigned char* rawHash)
+{
+    std::string result;
+    result.reserve(2 * HashBytes);
+    for (int i = 0; i < HashBytes; i++)
+    {
+        static const char dec2hex[16 + 1] = "0123456789abcdef";
+        result += dec2hex[(rawHash[i] >> 4) & 15];
+        result += dec2hex[rawHash[i] & 15];
+    }
+
+    return result;
+}
 
 /// return latest hash as bytes
 void MD5::getHash(unsigned char buffer[MD5::HashBytes])
@@ -368,6 +381,13 @@ std::string MD5::operator()(const void* data, size_t numBytes)
     reset();
     add(data, numBytes);
     return getHash();
+}
+
+void MD5::operator()(const void* data, size_t numBytes, unsigned char* out)
+{
+    reset();
+    add(data, numBytes);
+    getHash(out);
 }
 
 

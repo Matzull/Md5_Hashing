@@ -8,6 +8,7 @@
 #include <thread>
 #include <mutex>
 #include <vector>
+#include <cmath>
 using namespace std::chrono;
 using namespace std;
 void fasterHashing(int thread_no, string& out, const string& guide, long long int& nonce_o);
@@ -19,7 +20,7 @@ const int threadcount = 16;
 vector<jthread> hashing_threads;
 std::atomic<bool> exit_thread_flag{ false };
 string guide;
-const int difficulty = 7;
+const int difficulty = 8;
 
 int main(int argc, char* argv[])
 {
@@ -42,7 +43,7 @@ int main(int argc, char* argv[])
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
     cout << "Block found in:" << duration.count() / 1000.0 << " seconds." << endl;
-    cout << "Average hashing power was: " << nonce / duration.count() << " KH/S" << endl;
+    cout << "Average hashing power was: " << nonce / (duration.count() * 1000.0) << " MH/S" << endl;
     cout << "Out: " << out << endl;
     return 0;
 }
@@ -61,15 +62,18 @@ void initBlock()
 void fasterHashing(int thread_no, string& out, const string& guide, long long int& nonce_o)
 {
     char char_array[350];
+    char integer_string[32];
     int guide_length = guide.length();
     strcpy_s(char_array, guide.length() + 1, guide.c_str());
     MD5 md5;
+    unsigned char hash_c[16];
 
     long long int relNonce = 0;
-    for (size_t nonce = thread_no; nonce < LLONG_MAX && !exit_thread_flag; nonce += threadcount)
+    int nonce_length = 1;
+    for (size_t nonce = thread_no + 1; nonce < LLONG_MAX && !exit_thread_flag; nonce += threadcount)
     {
         string nonce_str = to_string(nonce) + lf;
-        int nonce_length = nonce_str.length();
+        nonce_length = int(log10(nonce) + 1);
         for (size_t i = guide_length; i < guide_length + nonce_length; i++)
         {
             char_array[i] = nonce_str[i - guide_length];
@@ -77,14 +81,14 @@ void fasterHashing(int thread_no, string& out, const string& guide, long long in
 
         int len = guide_length + nonce_length;
 
-        md5.add(char_array, len);
-        string hash = md5.getHash();
+        /*md5.add(char_array, len);
+        string hash = md5.getHash();*/
 
-        //string hash = md5(char_array, len);
+        md5(char_array, len, hash_c);
         bool correct = true;
-        for (size_t i = 0; i < difficulty && correct; i++)
+        for (size_t i = 0; i < difficulty/2 && correct; i++)
         {
-            if (hash[i] != 'b')
+            if (hash_c[i] != 0xbb)
             {
                 correct = false;
             }
@@ -94,13 +98,13 @@ void fasterHashing(int thread_no, string& out, const string& guide, long long in
         {
             //stop all running threads and return value
             stopThreads(thread_no);
-            out = hash + " " + to_string(nonce);
+            out = md5.hexString(hash_c) + " " + to_string(nonce);
             nonce_o = nonce;
             return;
         }
         else if (relNonce % 1000000 == 0 && !thread_no)
         {
-            cout << hash << " " + to_string(nonce) << endl;
+            cout << md5.hexString(hash_c) << " " << to_string(nonce) << endl;
         }
         relNonce++;
     }

@@ -48,13 +48,17 @@ public:
     /// compute MD5 of a string, excluding final zero
     std::string operator()(const std::string& text);
 
+    void operator()(const void* data, size_t numBytes, unsigned char* out);
+
     /// add arbitrary number of bytes
     void add(const void* data, size_t numBytes);
 
     /// return latest hash as 32 hex characters
     std::string getHash();
     /// return latest hash as bytes
-    void        getHash(unsigned char buffer[HashBytes]);
+    void getHash(unsigned char buffer[HashBytes]);
+
+    std::string hexString(unsigned char* rawHash);
 
     /// restart
     void reset();
