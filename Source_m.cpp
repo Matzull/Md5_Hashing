@@ -52,17 +52,17 @@ void initBlock()
 {
     ifstream infile("guia.txt");
     string texto = "";
-    string texto2 = "";
     getline(infile, texto);
-    getline(infile, texto2);
-    guide = texto + lf + texto2 + lf + "Nonce: ";
+    guide = texto + lf + "Nonce: ";
     infile.close();
 }
 
 void fasterHashing(int thread_no, string& out, const string& guide, long long int& nonce_o)
 {
+    bool correct;
     char char_array[350];
     char integer_string[32];
+    int noncecpy;
     int guide_length = guide.length();
     strcpy_s(char_array, guide.length() + 1, guide.c_str());
     MD5 md5;
@@ -72,11 +72,12 @@ void fasterHashing(int thread_no, string& out, const string& guide, long long in
     int nonce_length = 1;
     for (size_t nonce = thread_no + 1; nonce < LLONG_MAX && !exit_thread_flag; nonce += threadcount)
     {
-        string nonce_str = to_string(nonce) + lf;
+        noncecpy = nonce;
         nonce_length = int(log10(nonce) + 1);
         for (size_t i = guide_length; i < guide_length + nonce_length; i++)
         {
-            char_array[i] = nonce_str[i - guide_length];
+            char_array[i] = noncecpy%10;
+            noncecpy /= 10;
         }
 
         int len = guide_length + nonce_length;
@@ -85,14 +86,8 @@ void fasterHashing(int thread_no, string& out, const string& guide, long long in
         string hash = md5.getHash();*/
 
         md5(char_array, len, hash_c);
-        bool correct = true;
-        for (size_t i = 0; i < difficulty/2 && correct; i++)
-        {
-            if (hash_c[i] != 0xbb)
-            {
-                correct = false;
-            }
-        }
+        
+        correct = (*((int*)hash_c) & 0xFFFFFFFF) == 0;
         
         if (correct)
         {
