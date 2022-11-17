@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Md5_Hashing", "Md5_Hashing.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fastmd5", "..\fastmd5\fastmd5.vcxproj", "{FA599966-11C3-4EFE-943F-B9756C6DF2A1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "md5_cuda", "..\md5_cuda\md5_cuda.vcxproj", "{1D127A4D-B713-4893-9A2C-CF519958DE13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{FA599966-11C3-4EFE-943F-B9756C6DF2A1}.Release|x64.Build.0 = Release|x64
 		{FA599966-11C3-4EFE-943F-B9756C6DF2A1}.Release|x86.ActiveCfg = Release|Win32
 		{FA599966-11C3-4EFE-943F-B9756C6DF2A1}.Release|x86.Build.0 = Release|Win32
+		{1D127A4D-B713-4893-9A2C-CF519958DE13}.Debug|x64.ActiveCfg = Debug|x64
+		{1D127A4D-B713-4893-9A2C-CF519958DE13}.Debug|x64.Build.0 = Debug|x64
+		{1D127A4D-B713-4893-9A2C-CF519958DE13}.Debug|x86.ActiveCfg = Debug|x64
+		{1D127A4D-B713-4893-9A2C-CF519958DE13}.Debug|x86.Build.0 = Debug|x64
+		{1D127A4D-B713-4893-9A2C-CF519958DE13}.Release|x64.ActiveCfg = Release|x64
+		{1D127A4D-B713-4893-9A2C-CF519958DE13}.Release|x64.Build.0 = Release|x64
+		{1D127A4D-B713-4893-9A2C-CF519958DE13}.Release|x86.ActiveCfg = Release|x64
+		{1D127A4D-B713-4893-9A2C-CF519958DE13}.Release|x86.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
